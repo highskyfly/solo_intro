@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌿 绿意盎然 - 花草养护记录</title>
+    <style>
+        :root {
+            --morandi-blue: #7da4a1;
+            --morandi-pink: #d4a5a5;
+            --morandi-cream: #e8dfce;
+            --morandi-green: #a8c3a8;
+            --morandi-sage: #b5b8a6;
+            --morandi-lavender: #c4b7c8;
+            --morandi-peach: #e6c9b5;
+            --text-dark: #4a5568;
+            --text-light: #718096;
+            --white: #ffffff;
+            --shadow: 0 4px 20px rgba(125, 164, 161, 0.15);
+            --shadow-hover: 0 8px 30px rgba(125, 164, 161, 0.25);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8dfce 100%);
+            min-height: 100vh;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: var(--morandi-blue);
+            margin-bottom: 10px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: var(--morandi-blue);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--morandi-green);
+            border-radius: 2px;
+        }
+
+        .plant-selector {
+            margin-bottom: 25px;
+        }
+
+        .common-plants {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .common-plant {
+            background: var(--white);
+            border: 2px solid var(--morandi-cream);
+            border-radius: 15px;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .common-plant:hover {
+            transform: translateY(-3px);
+            border-color: var(--morandi-green);
+            box-shadow: var(--shadow);
+        }
+
+        .common-plant.selected {
+            border-color: var(--morandi-blue);
+            background: rgba(125, 164, 161, 0.1);
+        }
+
+        .common-plant .plant-icon {
+            width: 48px;
+            height: 48px;
+            display: block;
+            margin: 0 auto 8px;
+        }
+
+        .common-plant .name {
+            font-size: 0.85rem;
+            color: var(--text-dark);
+        }
+
+        .custom-plant-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .custom-plant-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid var(--morandi-cream);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .custom-plant-input input:focus {
+            outline: none;
+            border-color: var(--morandi-blue);
+        }
+
+        .watering-form {
+            background: linear-gradient(135deg, rgba(168, 195, 168, 0.1) 0%, rgba(125, 164, 161, 0.1) 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--morandi-cream);
+            border-radius: 12px;
+            resize: vertical;
+            min-height: 80px;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--morandi-blue);
+        }
+
+        .photo-upload {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .photo-upload-area {
+            width: 100px;
+            height: 100px;
+            border: 2px dashed var(--morandi-cream);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            overflow: hidden;
+            background: var(--morandi-cream);
+        }
+
+        .photo-upload-area:hover {
+            border-color: var(--morandi-blue);
+        }
+
+        .photo-upload-area .placeholder {
+            color: var(--text-light);
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        .photo-upload-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-upload input {
+            display: none;
+        }
+
+        .water-btn {
+            width: 100%;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, var(--morandi-green) 0%, var(--morandi-blue) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .water-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(125, 164, 161, 0.4);
+        }
+
+        .water-btn:active {
+            transform: translateY(0);
+        }
+
+        .calendar {
+            margin-bottom: 20px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .calendar-nav button {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: var(--morandi-cream);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .calendar-nav button:hover {
+            background: var(--morandi-blue);
+            color: white;
+        }
+
+        .calendar-month {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-weekday {
+            text-align: center;
+            padding: 10px;
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            position: relative;
+        }
+
+        .calendar-day:hover {
+            background: var(--morandi-cream);
+        }
+
+        .calendar-day.other-month {
+            color: #ccc;
+        }
+
+        .calendar-day.today {
+            background: var(--morandi-blue);
+            color: white;
+            font-weight: bold;
+        }
+
+        .calendar-day.has-record::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            width: 6px;
+            height: 6px;
+            background: var(--morandi-green);
+            border-radius: 50%;
+        }
+
+        .calendar-day.selected {
+            background: var(--morandi-green);
+            color: white;
+        }
+
+        .calendar-day.selected.has-record::after {
+            background: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            background: linear-gradient(135deg, rgba(168, 195, 168, 0.2) 0%, rgba(125, 164, 161, 0.2) 100%);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 300;
+            color: var(--morandi-blue);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        .recent-records {
+            margin-top: 25px;
+        }
+
+        .record-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: var(--white);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            transition: var(--transition);
+            border: 1px solid var(--morandi-cream);
+        }
+
+        .record-item:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow);
+        }
+
+        .record-item .plant-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            object-fit: cover;
+            background: var(--morandi-cream);
+        }
+
+        .record-item .record-info {
+            flex: 1;
+        }
+
+        .record-item .plant-name {
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .record-item .record-time {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .record-item .record-status {
+            font-size: 0.85rem;
+            color: var(--morandi-green);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            color: var(--morandi-blue);
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: var(--morandi-cream);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: var(--morandi-pink);
+            color: white;
+        }
+
+        .day-record-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            background: var(--white);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border: 1px solid var(--morandi-cream);
+        }
+
+        .day-record-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            object-fit: cover;
+            background: var(--morandi-sage);
+        }
+
+        .day-record-info {
+            flex: 1;
+        }
+
+        .day-record-plant {
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .day-record-desc {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        .day-record-time {
+            font-size: 0.8rem;
+            color: var(--morandi-blue);
+            margin-top: 5px;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light);
+        }
+
+        .empty-message .icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 15px;
+            display: block;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-dark);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            z-index: 2000;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        @keyframes bloom {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .bloom {
+            animation: bloom 0.5s ease-out;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--morandi-cream);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--morandi-sage);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--morandi-blue);
+        }
+    </style>
+</head>
+<body>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="icon-succulent" viewBox="0 0 48 48">
+            <ellipse cx="24" cy="35" rx="12" ry="4" fill="#8B4513" opacity="0.3"/>
+            <ellipse cx="24" cy="28" rx="10" ry="12" fill="#7cb342"/>
+            <ellipse cx="24" cy="30" rx="8" ry="10" fill="#8bc34a"/>
+            <ellipse cx="24" cy="32" rx="6" ry="8" fill="#9ccc65"/>
+            <ellipse cx="20" cy="26" rx="5" ry="7" fill="#7cb342"/>
+            <ellipse cx="28" cy="26" rx="5" ry="7" fill="#7cb342"/>
+            <path d="M24 16 L24 22" stroke="#5d4037" stroke-width="2"/>
+        </symbol>
+        
+        <symbol id="icon-pothos" viewBox="0 0 48 48">
+            <rect x="20" y="35" width="8" height="10" fill="#8B4513" rx="2"/>
+            <path d="M24 10 Q28 20 32 30" stroke="#43a047" stroke-width="3" fill="none"/>
+            <path d="M24 10 Q20 22 18 32" stroke="#43a047" stroke-width="3" fill="none"/>
+            <path d="M24 10 Q24 20 24 28" stroke="#43a047" stroke-width="3" fill="none"/>
+            <ellipse cx="32" cy="32" rx="5" ry="4" fill="#4caf50"/>
+            <ellipse cx="18" cy="34" rx="5" ry="4" fill="#4caf50"/>
+            <ellipse cx="24" cy="30" rx="4" ry="3" fill="#4caf50"/>
+        </symbol>
+        
+        <symbol id="icon-spiral" viewBox="0 0 48 48">
+            <rect x="21" y="30" width="6" height="15" fill="#5d4037" rx="2"/>
+            <path d="M24 32 Q24 5 24 5" stroke="#66bb6a" stroke-width="4" fill="none"/>
+            <path d="M24 32 Q15 25 15 15 Q15 8 24 5" stroke="#81c784" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M24 32 Q33 25 33 15 Q33 8 24 5" stroke="#66bb6a" stroke-width="4" fill="none" stroke-linecap="round"/>
+        </symbol>
+        
+        <symbol id="icon-money" viewBox="0 0 48 48">
+            <rect x="20" y="30" width="8" height="15" fill="#8B4513" rx="2"/>
+            <path d="M24 32 L24 8" stroke="#2e7d32" stroke-width="2"/>
+            <ellipse cx="24" cy="10" rx="8" ry="10" fill="#43a047"/>
+            <ellipse cx="24" cy="10" rx="5" ry="7" fill="#66bb6a"/>
+            <ellipse cx="24" cy="10" rx="2" ry="3" fill="#81c784"/>
+        </symbol>
+        
+        <symbol id="icon-bamboo" viewBox="0 0 48 48">
+            <rect x="20" y="10" width="8" height="35" fill="#66bb6a" rx="3"/>
+            <rect x="20" y="15" width="8" height="2" fill="#4caf50"/>
+            <rect x="20" y="25" width="8" height="2" fill="#4caf50"/>
+            <rect x="20" y="35" width="8" height="2" fill="#4caf50"/>
+            <path d="M28 25 Q38 20 42 28" stroke="#81c784" stroke-width="3" fill="none"/>
+            <ellipse cx="42" cy="30" rx="5" ry="3" fill="#81c784"/>
+        </symbol>
+        
+        <symbol id="icon-orchid" viewBox="0 0 48 48">
+            <rect x="22" y="32" width="4" height="13" fill="#66bb6a" rx="1"/>
+            <path d="M24 34 Q18 25 18 18" stroke="#66bb6a" stroke-width="2" fill="none"/>
+            <path d="M24 34 Q30 25 30 18" stroke="#66bb6a" stroke-width="2" fill="none"/>
+            <ellipse cx="18" cy="14" rx="6" ry="8" fill="#e91e63" opacity="0.7"/>
+            <ellipse cx="30" cy="14" rx="6" ry="8" fill="#e91e63" opacity="0.7"/>
+            <ellipse cx="24" cy="10" rx="5" ry="7" fill="#f48fb1"/>
+            <circle cx="24" cy="10" r="2" fill="#ffeb3b"/>
+        </symbol>
+        
+        <symbol id="icon-sansevieria" viewBox="0 0 48 48">
+            <ellipse cx="24" cy="38" rx="10" ry="3" fill="#5d4037" opacity="0.3"/>
+            <path d="M24 38 L16 10 Q16 6 24 6 Q32 6 32 10 L24 38" fill="#2e7d32"/>
+            <path d="M24 38 L20 12 Q20 9 24 9 Q28 9 28 12 L24 38" fill="#388e3c"/>
+            <path d="M24 38 L24 8" stroke="#4caf50" stroke-width="1" opacity="0.5"/>
+            <path d="M18 38 L18 12" stroke="#4caf50" stroke-width="1" opacity="0.5"/>
+            <path d="M30 38 L30 12" stroke="#4caf50" stroke-width="1" opacity="0.5"/>
+        </symbol>
+        
+        <symbol id="icon-bamboograss" viewBox="0 0 48 48">
+            <rect x="22" y="28" width="4" height="17" fill="#8B4513" rx="1"/>
+            <path d="M24 30 Q20 15 16 8" stroke="#7cb342" stroke-width="2" fill="none"/>
+            <path d="M24 30 Q28 18 32 12" stroke="#7cb342" stroke-width="2" fill="none"/>
+            <path d="M24 30 Q22 18 20 10" stroke="#8bc34a" stroke-width="2" fill="none"/>
+            <path d="M24 30 Q26 20 28 14" stroke="#8bc34a" stroke-width="2" fill="none"/>
+            <ellipse cx="16" cy="6" rx="4" ry="3" fill="#9ccc65"/>
+            <ellipse cx="32" cy="10" rx="4" ry="3" fill="#9ccc65"/>
+        </symbol>
+        
+        <symbol id="icon-aloe" viewBox="0 0 48 48">
+            <ellipse cx="24" cy="38" rx="8" ry="3" fill="#5d4037" opacity="0.3"/>
+            <path d="M24 38 L16 20 Q16 15 24 15 Q32 15 32 20 L24 38" fill="#43a047"/>
+            <path d="M24 38 L18 22 Q18 18 24 18 Q30 18 30 22 L24 38" fill="#66bb6a"/>
+            <path d="M24 38 L20 25" stroke="#81c784" stroke-width="1"/>
+            <path d="M24 38 L28 25" stroke="#81c784" stroke-width="1"/>
+            <path d="M24 38 L24 20" stroke="#81c784" stroke-width="1"/>
+        </symbol>
+        
+        <symbol id="icon-mint" viewBox="0 0 48 48">
+            <rect x="21" y="30" width="6" height="15" fill="#8B4513" rx="2"/>
+            <path d="M24 32 Q20 20 16 12" stroke="#43a047" stroke-width="3" fill="none"/>
+            <path d="M24 32 Q28 22 32 14" stroke="#4caf50" stroke-width="3" fill="none"/>
+            <path d="M24 32 Q22 18 22 8" stroke="#66bb6a" stroke-width="3" fill="none"/>
+            <path d="M24 32 Q26 20 26 10" stroke="#43a047" stroke-width="3" fill="none"/>
+            <ellipse cx="16" cy="10" rx="5" ry="4" fill="#81c784"/>
+            <ellipse cx="32" cy="12" rx="5" ry="4" fill="#81c784"/>
+            <ellipse cx="22" cy="6" rx="4" ry="3" fill="#a5d6a7"/>
+            <ellipse cx="26" cy="8" rx="4" ry="3" fill="#a5d6a7"/>
+        </symbol>
+        
+        <symbol id="icon-lavender" viewBox="0 0 48 48">
+            <rect x="22" y="28" width="4" height="17" fill="#5d4037" rx="1"/>
+            <path d="M24 30 L24 8" stroke="#7e57c2" stroke-width="2"/>
+            <ellipse cx="24" cy="8" rx="4" ry="5" fill="#9575cd"/>
+            <ellipse cx="24" cy="14" rx="5" ry="4" fill="#b39ddb"/>
+            <ellipse cx="24" cy="20" rx="4" ry="3" fill="#d1c4e9"/>
+            <ellipse cx="20" cy="12" rx="3" ry="3" fill="#b39ddb"/>
+            <ellipse cx="28" cy="12" rx="3" ry="3" fill="#b39ddb"/>
+        </symbol>
+        
+        <symbol id="icon-rose" viewBox="0 0 48 48">
+            <rect x="22" y="32" width="4" height="13" fill="#4caf50" rx="1"/>
+            <path d="M24 34 Q18 28 18 20 Q18 12 24 10 Q30 12 30 20 Q30 28 24 34" fill="#e91e63"/>
+            <path d="M24 34 Q20 28 20 22 Q20 16 24 14 Q28 16 28 22 Q28 28 24 34" fill="#f06292"/>
+            <path d="M24 34 L24 18" stroke="#ffeb3b" stroke-width="2"/>
+            <path d="M24 34 Q22 26 22 18" stroke="#ffeb3b" stroke-width="1" opacity="0.5"/>
+            <path d="M24 34 Q26 26 26 18" stroke="#ffeb3b" stroke-width="1" opacity="0.5"/>
+        </symbol>
+        
+        <symbol id="icon-default" viewBox="0 0 48 48">
+            <rect x="20" y="30" width="8" height="15" fill="#8B4513" rx="2"/>
+            <path d="M24 32 L24 12" stroke="#43a047" stroke-width="3"/>
+            <path d="M24 12 Q16 8 12 14" stroke="#4caf50" stroke-width="3" fill="none"/>
+            <path d="M24 12 Q32 8 36 14" stroke="#66bb6a" stroke-width="3" fill="none"/>
+            <path d="M24 18 Q18 16 14 20" stroke="#81c784" stroke-width="3" fill="none"/>
+            <path d="M24 18 Q30 16 34 20" stroke="#81c784" stroke-width="3" fill="none"/>
+            <ellipse cx="12" cy="16" rx="5" ry="4" fill="#a5d6a7"/>
+            <ellipse cx="36" cy="16" rx="5" ry="4" fill="#a5d6a7"/>
+            <ellipse cx="14" cy="22" rx="4" ry="3" fill="#c8e6c9"/>
+            <ellipse cx="34" cy="22" rx="4" ry="3" fill="#c8e6c9"/>
+        </symbol>
+
+        <symbol id="icon-custom" viewBox="0 0 48 48">
+            <ellipse cx="24" cy="40" rx="10" ry="3" fill="#5d4037" opacity="0.3"/>
+            <rect x="21" y="32" width="6" height="10" fill="#8B4513" rx="2"/>
+            <path d="M24 34 L24 14" stroke="#9e9e9e" stroke-width="3"/>
+            <ellipse cx="24" cy="14" rx="10" ry="8" fill="#bdbdbd"/>
+            <ellipse cx="24" cy="14" rx="6" ry="5" fill="#e0e0e0"/>
+            <path d="M18 14 Q16 18 18 22" stroke="#9e9e9e" stroke-width="2" fill="none"/>
+            <path d="M30 14 Q32 18 30 22" stroke="#9e9e9e" stroke-width="2" fill="none"/>
+            <circle cx="20" cy="12" r="2" fill="#bdbdbd"/>
+            <circle cx="28" cy="12" r="2" fill="#bdbdbd"/>
+            <circle cx="24" cy="10" r="1.5" fill="#bdbdbd"/>
+        </symbol>
+
+        <symbol id="icon-empty-plant" viewBox="0 0 64 64">
+            <ellipse cx="32" cy="55" rx="18" ry="5" fill="#8B4513" opacity="0.2"/>
+            <path d="M32 55 L32 25" stroke="#8B4513" stroke-width="4" stroke-linecap="round"/>
+            <ellipse cx="32" cy="18" rx="14" ry="16" fill="#7cb342"/>
+            <ellipse cx="32" cy="22" rx="10" ry="13" fill="#8bc34a"/>
+            <ellipse cx="26" cy="15" rx="7" ry="10" fill="#7cb342"/>
+            <ellipse cx="38" cy="15" rx="7" ry="10" fill="#7cb342"/>
+            <ellipse cx="32" cy="28" rx="6" ry="8" fill="#9ccc65"/>
+        </symbol>
+
+        <symbol id="icon-empty-calendar" viewBox="0 0 64 64">
+            <rect x="10" y="12" width="44" height="44" rx="6" fill="#e8dfce" stroke="#b5b8a6" stroke-width="2"/>
+            <rect x="10" y="12" width="44" height="12" rx="6" fill="#7da4a1"/>
+            <text x="32" y="26" text-anchor="middle" fill="white" font-size="10" font-weight="bold">12月</text>
+            <circle cx="32" cy="42" r="6" fill="#a8c3a8"/>
+            <path d="M32 38 L32 46 M28 42 L36 42" stroke="white" stroke-width="2"/>
+        </symbol>
+
+        <symbol id="icon-empty-list" viewBox="0 0 64 64">
+            <rect x="12" y="8" width="40" height="48" rx="4" fill="#e8dfce" stroke="#b5b8a6" stroke-width="2"/>
+            <line x1="20" y1="20" x2="44" y2="20" stroke="#b5b8a6" stroke-width="2"/>
+            <line x1="20" y1="30" x2="44" y2="30" stroke="#b5b8a6" stroke-width="2"/>
+            <line x1="20" y1="40" x2="44" y2="40" stroke="#b5b8a6" stroke-width="2"/>
+            <circle cx="32" cy="48" r="4" fill="#a8c3a8"/>
+        </symbol>
+
+        <symbol id="icon-calendar" viewBox="0 0 64 64">
+            <rect x="8" y="10" width="48" height="48" rx="6" fill="white" stroke="#7da4a1" stroke-width="2"/>
+            <rect x="8" y="10" width="48" height="14" rx="6" fill="#7da4a1"/>
+            <rect x="8" y="20" width="48" height="4" fill="#7da4a1"/>
+            <text x="32" y="22" text-anchor="middle" fill="white" font-size="10" font-weight="bold">12月</text>
+            <circle cx="22" cy="45" r="3" fill="#a8c3a8"/>
+            <circle cx="42" cy="45" r="3" fill="#a8c3a8"/>
+            <circle cx="32" cy="45" r="3" fill="#a8c3a8"/>
+        </symbol>
+    </svg>
+
+    <div class="container">
+        <header>
+            <h1>🌿 绿意盎然</h1>
+            <p>记录每一株植物的成长时刻</p>
+        </header>
+
+        <div class="main-content">
+            <div class="left-column">
+                <div class="card">
+                    <h2 class="card-title">选择植物</h2>
+                    <div class="plant-selector">
+                        <p style="margin-bottom: 15px; color: var(--text-light); font-size: 0.9rem;">点击选择或输入自定义植物</p>
+                        <div class="common-plants" id="commonPlants"></div>
+                        <div class="custom-plant-input">
+                            <input type="text" id="customPlantName" placeholder="输入自定义植物名称...">
+                        </div>
+                    </div>
+
+                    <div class="watering-form">
+                        <div class="form-group">
+                            <label>状态描述（可选）</label>
+                            <textarea id="plantStatus" placeholder="记录植物的生长状态、叶色等情况..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>照片上传（可选）</label>
+                            <div class="photo-upload">
+                                <div class="photo-upload-area" id="photoUploadArea">
+                                    <span class="placeholder">📷<br>点击上传</span>
+                                    <img id="previewPhoto" style="display: none;">
+                                </div>
+                                <input type="file" id="photoInput" accept="image/*">
+                                <button type="button" id="clearPhoto" style="display: none; padding: 8px 15px; background: var(--morandi-pink); color: white; border: none; border-radius: 8px; cursor: pointer;">清除</button>
+                            </div>
+                        </div>
+                        <button class="water-btn" id="waterBtn">
+                            💧 浇水记录
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 30px;">
+                    <h2 class="card-title">今日记录</h2>
+                    <div id="todayRecords">
+                        <div class="empty-message">
+                            <svg class="icon"><use href="#icon-empty-plant"/></svg>
+                            <p>今天还没有浇水记录</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div class="card">
+                    <h2 class="card-title">养护日历</h2>
+                    <div class="calendar">
+                        <div class="calendar-header">
+                            <div class="calendar-month" id="calendarMonth"></div>
+                            <div class="calendar-nav">
+                                <button id="prevMonth">◀</button>
+                                <button id="nextMonth">▶</button>
+                            </div>
+                        </div>
+                        <div class="calendar-grid" id="calendarGrid"></div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 30px;">
+                    <h2 class="card-title">养护统计</h2>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value" id="totalPlants">0</div>
+                            <div class="stat-label">植物总数</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="totalRecords">0</div>
+                            <div class="stat-label">浇水次数</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="weekRecords">0</div>
+                            <div class="stat-label">本周浇水</div>
+                        </div>
+                    </div>
+                    <div class="recent-records">
+                        <h3 style="font-size: 1rem; color: var(--text-dark); margin-bottom: 15px;">最近记录</h3>
+                        <div id="recentRecords">
+                            <div class="empty-message">
+                                <svg class="icon"><use href="#icon-empty-list"/></svg>
+                                <p>暂无记录，开始你的第一次浇水吧！</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="dayModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalDate"></h3>
+                <button class="modal-close" id="modalClose">×</button>
+            </div>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const sampleData = [
+            {
+                id: 'sample_1',
+                plantName: '多肉植物',
+                plantIcon: 'icon-succulent',
+                timestamp: Date.now() - 86400000 * 2,
+                status: '叶片饱满，颜色鲜艳，状态很好',
+                photo: null
+            },
+            {
+                id: 'sample_2',
+                plantName: '绿萝',
+                plantIcon: 'icon-pothos',
+                timestamp: Date.now() - 86400000,
+                status: '新叶萌发，长势旺盛',
+                photo: null
+            }
+        ];
+
+        const commonPlants = [
+            { name: '多肉植物', icon: 'icon-succulent' },
+            { name: '绿萝', icon: 'icon-pothos' },
+            { name: '吊兰', icon: 'icon-spiral' },
+            { name: '发财树', icon: 'icon-money' },
+            { name: '富贵竹', icon: 'icon-bamboo' },
+            { name: '君子兰', icon: 'icon-orchid' },
+            { name: '虎皮兰', icon: 'icon-sansevieria' },
+            { name: '文竹', icon: 'icon-bamboograss' },
+            { name: '芦荟', icon: 'icon-aloe' },
+            { name: '薄荷', icon: 'icon-mint' },
+            { name: '薰衣草', icon: 'icon-lavender' },
+            { name: '玫瑰', icon: 'icon-rose' }
+        ];
+
+        let selectedPlant = null;
+        let currentMonth = new Date();
+        let selectedDate = new Date();
+        let records = [];
+        let uploadedPhoto = null;
+
+        const commonPlantsEl = document.getElementById('commonPlants');
+        const customPlantNameEl = document.getElementById('customPlantName');
+        const plantStatusEl = document.getElementById('plantStatus');
+        const photoUploadAreaEl = document.getElementById('photoUploadArea');
+        const photoInputEl = document.getElementById('photoInput');
+        const previewPhotoEl = document.getElementById('previewPhoto');
+        const clearPhotoEl = document.getElementById('clearPhoto');
+        const waterBtnEl = document.getElementById('waterBtn');
+        const calendarGridEl = document.getElementById('calendarGrid');
+        const calendarMonthEl = document.getElementById('calendarMonth');
+        const todayRecordsEl = document.getElementById('todayRecords');
+        const recentRecordsEl = document.getElementById('recentRecords');
+        const dayModalEl = document.getElementById('dayModal');
+        const modalDateEl = document.getElementById('modalDate');
+        const modalContentEl = document.getElementById('modalContent');
+        const modalCloseEl = document.getElementById('modalClose');
+        const toastEl = document.getElementById('toast');
+
+        function init() {
+            loadData();
+            renderCommonPlants();
+            renderCalendar();
+            renderTodayRecords();
+            renderRecentRecords();
+            updateStats();
+            bindEvents();
+        }
+
+        function loadData() {
+            const saved = localStorage.getItem('plantRecords');
+            if (saved) {
+                records = JSON.parse(saved);
+            } else {
+                records = sampleData;
+                saveData();
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('plantRecords', JSON.stringify(records));
+        }
+
+        function renderCommonPlants() {
+            commonPlantsEl.innerHTML = commonPlants.map((plant, index) => `
+                <div class="common-plant" data-index="${index}">
+                    <svg class="plant-icon"><use href="#${plant.icon}"/></svg>
+                    <span class="name">${plant.name}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderCalendar() {
+            const year = currentMonth.getFullYear();
+            const month = currentMonth.getMonth();
+            
+            calendarMonthEl.textContent = `${year}年${month + 1}月`;
+            
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const today = new Date();
+            
+            let html = ['日', '一', '二', '三', '四', '五', '六']
+                .map(day => `<div class="calendar-weekday">${day}</div>`)
+                .join('');
+            
+            for (let i = 0; i < firstDay; i++) {
+                html += `<div class="calendar-day other-month"></div>`;
+            }
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const hasRecord = records.some(r => formatDateOnly(new Date(r.timestamp)) === dateStr);
+                const isToday = today.getFullYear() === year && today.getMonth() === month && today.getDate() === day;
+                const isSelected = selectedDate.getFullYear() === year && selectedDate.getMonth() === month && selectedDate.getDate() === day;
+                
+                html += `
+                    <div class="calendar-day ${isToday ? 'today' : ''} ${hasRecord ? 'has-record' : ''} ${isSelected ? 'selected' : ''}" 
+                         data-date="${dateStr}">${day}</div>
+                `;
+            }
+            
+            calendarGridEl.innerHTML = html;
+            
+            calendarGridEl.querySelectorAll('.calendar-day[data-date]').forEach(el => {
+                el.addEventListener('click', () => {
+                    const dateStr = el.dataset.date;
+                    selectedDate = new Date(dateStr + 'T00:00:00');
+                    renderCalendar();
+                    showDayRecords(dateStr);
+                });
+            });
+        }
+
+        function renderTodayRecords() {
+            const today = formatDateOnly(new Date());
+            const todayRecords = records.filter(r => formatDateOnly(new Date(r.timestamp)) === today);
+            
+            if (todayRecords.length === 0) {
+                todayRecordsEl.innerHTML = `
+                    <div class="empty-message">
+                        <svg class="icon"><use href="#icon-empty-plant"/></svg>
+                        <p>今天还没有浇水记录</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            todayRecordsEl.innerHTML = todayRecords.map(record => createRecordHTML(record)).join('');
+        }
+
+        function renderRecentRecords() {
+            const recent = [...records]
+                .sort((a, b) => b.timestamp - a.timestamp)
+                .slice(0, 5);
+            
+            if (recent.length === 0) {
+                recentRecordsEl.innerHTML = `
+                    <div class="empty-message">
+                        <svg class="icon"><use href="#icon-empty-list"/></svg>
+                        <p>暂无记录，开始你的第一次浇水吧！</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            recentRecordsEl.innerHTML = recent.map(record => createRecordHTML(record)).join('');
+        }
+
+        function createRecordHTML(record) {
+            const time = new Date(record.timestamp);
+            const timeStr = `${time.getHours().toString().padStart(2, '0')}:${time.getMinutes().toString().padStart(2, '0')}`;
+            
+            const iconId = record.plantIcon || 'icon-default';
+            
+            const photoContent = record.photo 
+                ? `<img src="${record.photo}" class="plant-icon" alt="${record.plantName}">`
+                : `<svg class="plant-icon"><use href="#${iconId}"/></svg>`;
+            
+            return `
+                <div class="record-item">
+                    ${photoContent}
+                    <div class="record-info">
+                        <div class="plant-name">${record.plantName}</div>
+                        <div class="record-time">${timeStr}</div>
+                        ${record.status ? `<div class="record-status">${record.status}</div>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateStats() {
+            const plants = new Set(records.map(r => r.plantName));
+            const weekAgo = new Date();
+            weekAgo.setDate(weekAgo.getDate() - 7);
+            
+            const weekRecords = records.filter(r => new Date(r.timestamp) >= weekAgo).length;
+            
+            document.getElementById('totalPlants').textContent = plants.size || 0;
+            document.getElementById('totalRecords').textContent = records.length;
+            document.getElementById('weekRecords').textContent = weekRecords;
+        }
+
+        function showDayRecords(dateStr) {
+            const dayRecords = records.filter(r => formatDateOnly(new Date(r.timestamp)) === dateStr);
+            const date = new Date(dateStr + 'T00:00:00');
+            const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+            
+            modalDateEl.textContent = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日 ${weekDays[date.getDay()]}`;
+            
+            if (dayRecords.length === 0) {
+                modalContentEl.innerHTML = `
+                    <div class="empty-message">
+                        <svg class="icon" style="width:64px;height:64px;"><use href="#icon-empty-calendar"/></svg>
+                        <p>这一天没有浇水记录</p>
+                    </div>
+                `;
+            } else {
+                modalContentEl.innerHTML = dayRecords.map(record => {
+                    const time = new Date(record.timestamp);
+                    const timeStr = `${time.getHours().toString().padStart(2, '0')}:${time.getMinutes().toString().padStart(2, '0')}`;
+                    const iconId = record.plantIcon || 'icon-default';
+                    
+                    return `
+                        <div class="day-record-item">
+                            ${record.photo ? 
+                                `<img src="${record.photo}" class="day-record-photo" alt="植物照片">` :
+                                `<svg class="day-record-photo" style="display:flex;align-items:center;justify-content:center;"><use href="#${iconId}"/></svg>`
+                            }
+                            <div class="day-record-info">
+                                <div class="day-record-plant">
+                                    ${record.photo ? '' : `<svg style="width:20px;height:20px;vertical-align:middle;margin-right:5px;"><use href="#${iconId}"/></svg>`}
+                                    ${record.plantName}
+                                </div>
+                                ${record.status ? `<div class="day-record-desc">${record.status}</div>` : ''}
+                                <div class="day-record-time">${timeStr}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            dayModalEl.classList.add('active');
+        }
+
+        function formatDateOnly(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function showToast(message) {
+            toastEl.textContent = message;
+            toastEl.classList.add('show');
+            setTimeout(() => toastEl.classList.remove('show'), 3000);
+        }
+
+        function bindEvents() {
+            commonPlantsEl.addEventListener('click', (e) => {
+                const plantEl = e.target.closest('.common-plant');
+                if (plantEl) {
+                    const index = parseInt(plantEl.dataset.index);
+                    selectedPlant = commonPlants[index];
+                    
+                    document.querySelectorAll('.common-plant').forEach(el => el.classList.remove('selected'));
+                    plantEl.classList.add('selected');
+                    customPlantNameEl.value = '';
+                }
+            });
+            
+            customPlantNameEl.addEventListener('input', (e) => {
+                if (e.target.value.trim()) {
+                    selectedPlant = { name: e.target.value.trim(), icon: 'icon-custom' };
+                    document.querySelectorAll('.common-plant').forEach(el => el.classList.remove('selected'));
+                }
+            });
+            
+            photoUploadAreaEl.addEventListener('click', () => photoInputEl.click());
+            
+            photoInputEl.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        uploadedPhoto = event.target.result;
+                        previewPhotoEl.src = uploadedPhoto;
+                        previewPhotoEl.style.display = 'block';
+                        photoUploadAreaEl.querySelector('.placeholder').style.display = 'none';
+                        clearPhotoEl.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            clearPhotoEl.addEventListener('click', () => {
+                uploadedPhoto = null;
+                previewPhotoEl.style.display = 'none';
+                photoUploadAreaEl.querySelector('.placeholder').style.display = 'block';
+                clearPhotoEl.style.display = 'none';
+                photoInputEl.value = '';
+            });
+            
+            waterBtnEl.addEventListener('click', () => {
+                if (!selectedPlant) {
+                    showToast('请先选择或输入植物名称');
+                    return;
+                }
+                
+                const record = {
+                    id: Date.now().toString(),
+                    plantName: selectedPlant.name,
+                    plantIcon: selectedPlant.icon,
+                    timestamp: Date.now(),
+                    status: plantStatusEl.value.trim() || null,
+                    photo: uploadedPhoto
+                };
+                
+                records.unshift(record);
+                saveData();
+                
+                plantStatusEl.value = '';
+                uploadedPhoto = null;
+                previewPhotoEl.style.display = 'none';
+                photoUploadAreaEl.querySelector('.placeholder').style.display = 'block';
+                clearPhotoEl.style.display = 'none';
+                photoInputEl.value = '';
+                
+                renderCalendar();
+                renderTodayRecords();
+                renderRecentRecords();
+                updateStats();
+                
+                showToast(`💧 已记录 ${selectedPlant.name} 的浇水信息`);
+            });
+            
+            document.getElementById('prevMonth').addEventListener('click', () => {
+                currentMonth.setMonth(currentMonth.getMonth() - 1);
+                renderCalendar();
+            });
+            
+            document.getElementById('nextMonth').addEventListener('click', () => {
+                currentMonth.setMonth(currentMonth.getMonth() + 1);
+                renderCalendar();
+            });
+            
+            modalCloseEl.addEventListener('click', () => {
+                dayModalEl.classList.remove('active');
+            });
+            
+            dayModalEl.addEventListener('click', (e) => {
+                if (e.target === dayModalEl) {
+                    dayModalEl.classList.remove('active');
+                }
+            });
+        }
+
+        init();
+    </script>
+</body>
+</html>
